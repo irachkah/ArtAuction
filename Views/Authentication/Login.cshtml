@@ -1,0 +1,42 @@
+﻿@model ArtAuction.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Index";
+
+}
+<head>
+    <link href="~/css/main.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="sidenav">
+    <div class="login-main-text">
+        <h2>Grace<br> Art auction</h2>
+        <p>We care about our clients.</p>
+    </div>
+</div>
+<div class="main">
+    <div class="col-md-7 col-sm-12">
+        <div class="login-form">
+            <form asp-controller="Authentication" asp-action="Login" method="post">
+                <div class="form-group">
+                    <h1>Start using our art services</h1>
+                    <label>E-mail</label>
+                    <input asp-for="Email" type="text" class="form-control" placeholder="E-mail">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Password">
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-dark btn-lg btn-block">Login</button>
+            </form>
+            <form>
+                <button class="btn btn-secondary btn-lg btn-block" asp-controller="Authentication" asp-action="Register" method="get">Register</button>
+            </form>
+                
+        </div>
+    </div>
+</div>
+</body>

@@ -1,0 +1,73 @@
+﻿@using ArtAuction.Models
+@model ArtAuction.Models.Artist
+@{
+    ViewData["Title"] = "AddArtist";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <h1 class="m-3">Add a new artist</h1>
+
+    <form method="post">
+        <span asp-validation-for="Name" class="text-danger"></span>
+        <div class="input-group mb-3 mt-4 mb-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Full Name</span>
+            </div>
+            <input asp-for="Name" class="form-control" aria-describedby="inputGroup-sizing-default">
+
+        </div>
+
+        <span asp-validation-for="BirthDate" class="text-danger"></span>
+        <div class="input-group mb-3 mt-4 mb-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Date of birth</span>
+            </div>
+            <input asp-for="BirthDate" type="date" class="form-control" aria-describedby="inputGroup-sizing-default">
+
+        </div>
+
+        <span asp-validation-for="BirthPlace" class="text-danger"></span>
+        <div class="input-group mb-3 mt-4 mb-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Place of birth</span>
+            </div>
+            <input asp-for="BirthPlace" class="form-control" aria-describedby="inputGroup-sizing-default">
+
+        </div>
+
+        <span asp-validation-for="DeathDate" class="text-danger"></span>
+        <div class="input-group mb-3 mt-4 mb-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Date of death</span>
+            </div>
+            <input asp-for="DeathDate" type="date" class="form-control" aria-describedby="inputGroup-sizing-default">
+
+        </div>
+
+        <span asp-validation-for="DeathPlace" class="text-danger"></span>
+        <div class="input-group mb-3 mt-4 mb-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Place of death</span>
+            </div>
+            <input asp-for="DeathPlace" class="form-control" aria-describedby="inputGroup-sizing-default">
+
+        </div>
+
+        <span asp-validation-for="Styles" class="text-danger"></span>
+        <div class="input-group mt-4 mb-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Styles</span>
+            </div>
+            <input asp-for="Styles" class="form-control" aria-label="With textarea">
+
+        </div>
+
+        <input type="hidden" value="@{new List<Painting>(); }" asp-for="Paintings" />
+
+        <div class="input-group">
+            <button asp-controller="Artists" asp-action="AddArtist" type="submit" class="btn btn-primary btn-lg btn-block mb-3 mt-4 mb-4">Create auction</button>
+        </div>
+    </form>
+
+</div>

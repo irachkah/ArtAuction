@@ -1,0 +1,62 @@
+﻿@using ArtAuction.Models
+@model ArtAuction.Models.Auction
+@{
+    ViewData["Title"] = "EditAuction";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <h1 class="m-3">Edit Auction</h1>
+
+    <form method="post">
+        <span asp-validation-for="Title" class="text-danger"></span>
+        <div class="input-group mb-3 mt-4 mb-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Auction Title</span>
+            </div>
+            <input asp-for="Title" class="form-control" aria-label="Auction Title" aria-describedby="inputGroup-sizing-default">
+
+        </div>
+
+        <span asp-validation-for="StartDateTime" class="text-danger"></span>
+        <div class="input-group mb-3 mt-4 mb-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Date and time</span>
+            </div>
+            <input asp-for="StartDateTime" type="datetime-local" class="form-control" aria-describedby="inputGroup-sizing-default">
+
+        </div>
+
+        <span asp-validation-for="EndDateTime" class="text-danger"></span>
+        <div class="input-group mb-3 mt-4 mb-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Date and time</span>
+            </div>
+            <input asp-for="EndDateTime" type="datetime-local" class="form-control" aria-label="Auction Title" aria-describedby="inputGroup-sizing-default">
+
+        </div>
+
+        <span asp-validation-for="Place" class="text-danger"></span>
+        <div class="input-group mb-3 mt-4 mb-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Place</span>
+            </div>
+            <input asp-for="Place" class="form-control" aria-label="Auction Title" aria-describedby="inputGroup-sizing-default">
+
+        </div>
+
+        <span asp-validation-for="Description" class="text-danger"></span>
+        <div class="input-group mt-4 mb-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Description</span>
+            </div>
+            <textarea asp-for="Description" class="form-control" aria-label="With textarea"></textarea>
+
+        </div>
+        <input type="hidden" value="@{new List<Painting>(); }" asp-for="Paintings" />
+        <div class="input-group">
+            <button asp-controller="Auctions" asp-action="EditAuction" type="submit" class="btn btn-primary btn-lg btn-block mb-3 mt-4 mb-4">Edit auction</button>
+        </div>
+    </form>
+
+</div>

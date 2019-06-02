@@ -1,0 +1,25 @@
+﻿@model ArtAuction.Models.Artist
+@{
+    ViewData["Title"] = "DeleteCollector";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <h2 class="mt-3 text-center"> @Model.Name</h2>
+    <p class="text-center font-weight-normal"><span class="font-weight-bold">Date of birth:</span> @Model.BirthDate.Date.ToString("d")</p>
+    <p class="text-center font-weight-normal"><span class="font-weight-bold">Place of birth:</span> @Model.BirthPlace</p>
+    @if(Model.DeathDate!= null && Model.DeathPlace!= null) { 
+    <p class="text-center font-weight-normal"><span class="font-weight-bold">Date of death:</span> @Model.DeathDate.Date.ToString("d")</p>
+    <p class="text-center font-weight-normal"><span class="font-weight-bold">Place of death:</span> @Model.DeathPlace</p>
+    }
+    <p class="text-center font-weight-normal"><span class="font-weight-bold">Styles\movements:</span> @Model.Styles</p>
+    @if (User.IsInRole("Administrator"))
+    {
+        <a asp-controller="Artists" asp-action="EditArtist" asp-route-id="@Model.Id" method="get" class="btn btn-info btn-lg pt-2 pb-2">Edit</a>
+        <form asp-controller="Artists" asp-action="DeleteArtist" asp-route-id="@Model.Id" method="post">
+            <input type="submit" value="Delete" class="btn btn-danger btn-lg mb-3" />
+        </form>
+    }
+</div>
+
+

@@ -1,0 +1,57 @@
+﻿@model ArtAuction.Models.Gallery
+@{
+    ViewData["Title"] = "EditGallery";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <h1 class="m-3">Edit a gallery</h1>
+
+    <form method="post">
+        <span asp-validation-for="Title" class="text-danger"></span>
+        <div class="input-group mb-3 mt-4 mb-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Gallery title</span>
+            </div>
+            <input asp-for="Title" class="form-control" aria-describedby="inputGroup-sizing-default">
+
+        </div>
+        <span asp-validation-for="Address" class="text-danger"></span>
+        <div class="input-group mb-3 mt-4 mb-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Address</span>
+            </div>
+            <input asp-for="Address" class="form-control" aria-describedby="inputGroup-sizing-default">
+
+        </div>
+        <span asp-validation-for="Founded" class="text-danger"></span>
+        <div class="input-group mb-3 mt-4 mb-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Date of foundation</span>
+            </div>
+            <input asp-for="Founded" type="date" class="form-control" aria-describedby="inputGroup-sizing-default">
+
+        </div>
+        <span asp-validation-for="About" class="text-danger"></span>
+        <div class="input-group mt-4 mb-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text">About</span>
+            </div>
+            <textarea asp-for="About" class="form-control" aria-label="With textarea"></textarea>
+        </div>
+
+        <span asp-validation-for="Movement" class="text-danger"></span>
+        <div class="input-group mb-3 mt-4 mb-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Movement\styles</span>
+            </div>
+            <input asp-for="Movement" class="form-control" aria-describedby="inputGroup-sizing-default">
+        </div>
+
+        <div class="input-group">
+            <button asp-controller="Galleries" asp-action="EditGallery" type="submit" class="btn btn-primary btn-lg btn-block mb-3 mt-4 mb-4">Submit</button>
+        </div>
+    </form>
+
+</div>
+

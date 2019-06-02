@@ -1,0 +1,18 @@
+﻿@model ArtAuction.Models.Painting
+@{
+    ViewData["Title"] = "AddArtist";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <h1> CONGRATULATIONS! YOU SUCCESSFULLY BOUGHT A NEW PAINTING! WE WILL AUTOMATICALLY WITHDRAW MONEY FROM YOUR ACCOUNT!</h1>
+    <h3 class="mt-3 text-center"> @Model.Title</h3>
+    <div class="text-center">
+        <img class="img-fluid" src="~/content/paintings/@Model.ImgId" alt="Painting">
+    </div>
+    <p class="text-center">Creation date: @Model.CreationDate</p>
+    <p class="text-center">Artist: @Model.Artist</p>
+    <p class="text-center">Style: @Model.Style</p>
+    <p class="text-center">Current location: @Model.CurrentlyLocated</p>
+    <p class="text-center">Estimated: @Model.Estimated</p>
+</div>
