@@ -19,17 +19,21 @@ namespace ArtAuction.Controllers
         private IFileManager _fileManager;
         private readonly IUserCollection _users;
         private readonly IEditableCollection<Artist> _artists;
+        private readonly IEditableCollection<Gallery> _galleries;
 
         public List<Auction> Auctions { get; set; }
         public Auction Auction { get; set; }
         public Painting Painting { get; set; }
+        public Artist Artist { get; set; }
+        public Gallery Gallery { get; set; }
 
-        public AuctionsController(IAuctionCollection auctions, IFileManager fileManager, IUserCollection users, IEditableCollection<Artist> artists)
+        public AuctionsController(IAuctionCollection auctions, IFileManager fileManager, IUserCollection users, IEditableCollection<Artist> artists, IEditableCollection<Gallery> galleries)
         {
             _auctions = auctions;
             _fileManager = fileManager;
             _users = users;
             _artists = artists;
+            _galleries = galleries;
         }
         public IActionResult Upcoming()
         {
@@ -79,68 +83,20 @@ namespace ArtAuction.Controllers
         [HttpPost]
         public IActionResult DeleteAuction(string id)
         {
+            Auction = _auctions.FindAuction(id);
+            foreach (var painting in Auction.Paintings)
+            {
+                painting.CurrentlyLocated = "Not on sale";
+                painting.AuctionId = null;
+                Artist = _artists.FindObject(painting.ArtistId);
+                Artist.UpdatePainting(painting);
+
+                _artists.UpdateObject(Artist);
+            }
             _auctions.RemoveAuction(id);
             return RedirectToAction("Upcoming");
         }
         
-        public IActionResult AddPainting(string id)
-        {
-            PaintingViewModel paintingVM = new PaintingViewModel();
-            ViewBag.OwnerId = id;
-            return View(paintingVM);
-        }
-
-        public void Test()
-        {
-            User user = _users.FindUser(User.Identity.Name);
-            if (user.Paintings == null)
-            {
-                user.Paintings = new List<Painting>();
-            }
-
-           // user.Paintings = null;
-            _users.UpdateUser(user);
-        }
-        [HttpPost]
-        public async Task<IActionResult> AddPainting(PaintingViewModel paintingVM)
-        {
-            if (ModelState.IsValid)
-            {
-                Painting = new Painting(paintingVM);
-
-                Painting.ImgId = await _fileManager.SaveImage(paintingVM.Image);
-                Auction = _auctions.FindAuction(Painting.OwnerId);
-                if (Auction.Paintings == null)
-                {
-                    Painting.Id = $"{0}";
-                    Auction.Paintings = new List<Painting>();
-                }
-
-                Painting.Id = $"{Auction.Paintings.Count}";
-                Auction.Paintings.Add(Painting);
-                _auctions.UpdateAuction(Auction);
-                return RedirectToAction("AuctionView", "Auctions", new{@id=Painting.OwnerId});
-            }
-            return View(paintingVM);
-        }
-        [HttpPost]
-        public IActionResult DeletePainting(string auctionId, string paintingId)
-        {
-            Auction = _auctions.FindAuction(auctionId);
-            Painting = Auction.Paintings.Find(p => p.Id == paintingId);
-            Auction.Paintings.Remove(Painting);
-            _auctions.UpdateAuction(Auction);
-
-            return RedirectToAction("AuctionView", "Auctions", new { @id = auctionId });
-        }
-
-        public IActionResult PaintingView(string auctionId, string paintingId)
-        {
-            Auction = _auctions.FindAuction(auctionId);
-            Painting = Auction.Paintings.Find(p => p.Id == paintingId);
-            return View(Painting);
-        }
-
         public IActionResult SuccessfullyBought(string paintingID, string auctionID)
         {
             Auction = _auctions.FindAuction(auctionID);
@@ -159,27 +115,33 @@ namespace ArtAuction.Controllers
 
             Auction = _auctions.FindAuction(auctionId);
             Painting = Auction.Paintings.Find(p => p.Id == paintingId);
+            Artist = _artists.FindObject(Painting.ArtistId);
             Painting.IsBought = true;
-            Painting.OwnerId = user.Id;
-            Painting.CurrentlyLocated = "PrivateCollection";
-            Painting.OwnerName = user.FirstName + " " + user.LastName;
-            user.Paintings.Add(Painting);
 
+            if (user.Role != "Representative")
+            {
+                Painting.OwnerId = user.Id;
+                Painting.CurrentlyLocated = "PrivateCollection";
+                Painting.OwnerName = user.FirstName + " " + user.LastName;
+                user.Paintings.Add(Painting);
+                _users.UpdateUser(user);
+            }
+            else
+            {
+                Gallery = _galleries.Objects.Find(gal => gal.Title == user.Gallery);
+                Painting.OwnerId = Gallery.Id;
+                Painting.CurrentlyLocated = "Art gallery";
+                Painting.OwnerName = Gallery.Title;
+                Gallery.Paintings.Add(Painting);
+                _galleries.UpdateObject(Gallery);
+            }
+            
+            Artist.UpdatePainting(Painting);
+            _artists.UpdateObject(Artist);
             _auctions.UpdateAuction(Auction);
-            _users.UpdateUser(user);
+            
             
             return RedirectToAction("SuccessfullyBought", "Auctions", new { @paintingID = paintingId, @auctionID = auctionId});
         }
-
-        /*public IActionResult Artist(string name)
-        {
-            Models.Artist artist = _artists.Objects.Find(x => x.Name == name);
-            if (artist != null)
-            {
-                RedirectToAction("ArtistView", "Artists", new {@id = artist.Id});
-            }
-            
-        }*/
     }
-
 }

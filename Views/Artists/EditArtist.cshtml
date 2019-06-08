@@ -1,4 +1,5 @@
-﻿@model ArtAuction.Models.Artist
+﻿@using ArtAuction.Models
+@model ArtAuction.Models.Artist
 @{
     ViewData["Title"] = "EditArtist";
     Layout = "_Layout";
@@ -61,9 +62,13 @@
             <input asp-for="Styles" class="form-control" aria-label="With textarea">
 
         </div>
-        <div class="input-group">
-            <button asp-controller="Artists" asp-action="EditArtist" type="submit" class="btn btn-primary btn-lg btn-block mb-3 mt-4 mb-4">Submit</button>
-        </div>
+        @{ var paintings = (List<Painting>) ViewData["Paintings"]; }
+        <a>hello @ViewData["Paintings"]</a>
+        <input type="hidden" value="@Model.Paintings" asp-for="Paintings" />
+           
+            <div class="input-group">
+                <button asp-controller="Artists" asp-action="EditArtist" type="submit" class="btn btn-primary btn-lg btn-block mb-3 mt-4 mb-4">Submit</button>
+            </div>
     </form>
 
 </div>

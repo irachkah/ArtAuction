@@ -26,5 +26,11 @@ namespace ArtAuction.Models
         [Required]
         public string Styles { get; set; }
         public List<Painting> Paintings { get; set; }
+
+        public void UpdatePainting(Painting painting)
+        {
+            Paintings.RemoveAll(p => p.Id == painting.Id);
+            Paintings.Add(painting);
+        }
     }
 }

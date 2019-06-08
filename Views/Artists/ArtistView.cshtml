@@ -3,23 +3,73 @@
     ViewData["Title"] = "DeleteCollector";
     Layout = "_Layout";
 }
+<section class="jumbotron text-center auctionTab">
+    <div class="container">
+        <h2 class="mt-3 text-center"> @Model.Name</h2>
+        <p class="text-center font-weight-normal"><span class="font-weight-bold">Date of birth:</span> @Model.BirthDate.Date.ToString("d")</p>
+        <p class="text-center font-weight-normal"><span class="font-weight-bold">Place of birth:</span> @Model.BirthPlace</p>
+        @if(Model.DeathDate!= null && Model.DeathPlace!= null) { 
+            <p class="text-center font-weight-normal"><span class="font-weight-bold">Date of death:</span> @Model.DeathDate.Date.ToString("d")</p>
+            <p class="text-center font-weight-normal"><span class="font-weight-bold">Place of death:</span> @Model.DeathPlace</p>
+        }
+        <p class="text-center font-weight-normal"><span class="font-weight-bold">Styles\movements:</span> @Model.Styles</p>
 
+        <!--it was p tag-->
+        <div>
+            @if (User.IsInRole("Administrator"))
+            {
+                <div class="btn-group" role="group">
+                    <a asp-controller="Artists" asp-action="AddPainting" asp-route-id="@Model.Id" method="get" class="btn btn-primary btn-lg p-3">Add a painting</a>
+                    <a asp-controller="Artists" asp-action="EditArtist" asp-route-id="@Model.Id" method="get" class="btn btn-info btn-lg p-3">Edit</a>
+                    <form asp-controller="Artists" asp-action="DeleteArtist" asp-route-id="@Model.Id" method="post">
+                        <input type="submit" value="Delete" class="btn btn-danger btn-lg p-3" />
+                    </form>
+                </div>
+                    }
+                </div>
+            </div>
+</section>
 <div class="container">
-    <h2 class="mt-3 text-center"> @Model.Name</h2>
-    <p class="text-center font-weight-normal"><span class="font-weight-bold">Date of birth:</span> @Model.BirthDate.Date.ToString("d")</p>
-    <p class="text-center font-weight-normal"><span class="font-weight-bold">Place of birth:</span> @Model.BirthPlace</p>
-    @if(Model.DeathDate!= null && Model.DeathPlace!= null) { 
-    <p class="text-center font-weight-normal"><span class="font-weight-bold">Date of death:</span> @Model.DeathDate.Date.ToString("d")</p>
-    <p class="text-center font-weight-normal"><span class="font-weight-bold">Place of death:</span> @Model.DeathPlace</p>
-    }
-    <p class="text-center font-weight-normal"><span class="font-weight-bold">Styles\movements:</span> @Model.Styles</p>
-    @if (User.IsInRole("Administrator"))
-    {
-        <a asp-controller="Artists" asp-action="EditArtist" asp-route-id="@Model.Id" method="get" class="btn btn-info btn-lg pt-2 pb-2">Edit</a>
-        <form asp-controller="Artists" asp-action="DeleteArtist" asp-route-id="@Model.Id" method="post">
-            <input type="submit" value="Delete" class="btn btn-danger btn-lg mb-3" />
-        </form>
-    }
+    
 </div>
+@if (Model.Paintings.Count != 0)
+{
+    <div class="album py-5 bg-light">
+        <div class="container">
 
+            <div class="row">
+                @foreach (var painting in Model.Paintings)
+                {
+
+                    <div class="col-md-4">
+                        <div class="card mb-4 box-shadow">
+                            <img class="card-img-top" src="~/content/paintings/@painting.ImgId" height="300" alt="Painting">
+                            <div class="card-body">
+                                <h4 class="card-text">@painting.Title</h4>
+                                <p class="card-text">Artist: @painting.Artist</p>
+                                <p class="card-text"> Style: @painting.Style</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a asp-controller="Artists" asp-action="PaintingView" asp-route-artistId="@Model.Id" asp-route-paintingId="@painting.Id" class="btn btn-sm btn-block btn-outline-secondary">View</a>
+                                        @{
+                                            if (User.IsInRole("Administrator") && painting.CurrentlyLocated == "Not on sale")
+                                            {
+                                                <a asp-controller="Artists" asp-action="EditPainting" asp-route-artistId="@Model.Id" asp-route-paintingId="@painting.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                            }
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 

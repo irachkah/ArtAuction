@@ -23,6 +23,15 @@ namespace ArtAuction.Controllers
             Galleries = _galleries.Objects;
             return View(Galleries);
         }
+
+        public void Test()
+        {
+            foreach (var gal in _galleries.Objects)
+            {
+                gal.Representatives = new List<User>();
+                _galleries.UpdateObject(gal);
+            }
+        }
         public IActionResult GalleryView(string id)
         {
             Gallery = _galleries.FindObject(id);

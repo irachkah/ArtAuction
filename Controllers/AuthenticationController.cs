@@ -48,6 +48,7 @@ namespace ArtAuction.Controllers
         [HttpGet]
         public IActionResult Register()
         {
+            ViewData["Galleries"] = _galleries.Objects;
             return View();
         }
         [HttpPost]
@@ -66,7 +67,6 @@ namespace ArtAuction.Controllers
                         Gallery gallery = _galleries.Objects.Find(gal => gal.Title == newUser.Gallery);
                         newUser.GalleryId = gallery.Id;
                         _users.AddUser(newUser);
-                        gallery.HasRepresentatives = true;
                         if (gallery.Representatives == null)
                         {
                             gallery.Representatives = new List<User>();
@@ -105,17 +105,5 @@ namespace ArtAuction.Controllers
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity));
         }
-
-       /* private string _role(string role)
-        {
-            switch (role)
-            {
-                case "Admin":
-                    return "Administrator";
-                    break;
-                case "Representative":
-
-            }
-        }*/
     }
 }

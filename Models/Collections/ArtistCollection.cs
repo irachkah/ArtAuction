@@ -22,7 +22,7 @@ namespace ArtAuction.Models.Collections
         {
             get
             {
-                return _artists.Find(_ => true).ToList();
+                return new List<Artist>(_artists.Find(_ => true).ToList().OrderBy(ar => ar.Name));
             }
         }
 

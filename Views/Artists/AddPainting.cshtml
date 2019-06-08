@@ -1,4 +1,5 @@
-﻿@model ArtAuction.ViewModels.PaintingViewModel
+﻿@using ArtAuction.Models
+@model ArtAuction.ViewModels.PaintingViewModel
 @{
     ViewData["Title"] = "AddPainting";
     Layout = "_Layout";
@@ -16,16 +17,6 @@
             <input asp-for="Title" class="form-control" aria-describedby="inputGroup-sizing-default">
 
         </div>
-
-        <span asp-validation-for="Artist" class="text-danger"></span>
-        <div class="input-group mb-3 mt-4 mb-4">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-default">Artist</span>
-            </div>
-            <input asp-for="Artist" class="form-control" aria-describedby="inputGroup-sizing-default">
-
-        </div>
-        <a asp-controller="Artists" asp-action="AddArtist" class="btn btn-primary my-2">Add a new artist</a>
 
         <span asp-validation-for="Style" class="text-danger"></span>
         <div class="input-group mb-3 mt-4 mb-4">
@@ -50,7 +41,17 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-default">Currently located</span>
             </div>
-            <input asp-for="CurrentlyLocated" class="form-control" aria-describedby="inputGroup-sizing-default">
+            <select asp-for="CurrentlyLocated" class="form-control" id="exampleFormControlSelect1">
+                <option>Not on sale</option>
+                @{
+                    var auctions = (List<Auction>)ViewData["Auctions"];
+                    foreach (var auction in auctions)
+                    {
+                        <option>@auction.Title</option>
+                    }
+                }
+
+            </select>
 
         </div>
 
@@ -62,6 +63,7 @@
             <input asp-for="Estimated" class="form-control" aria-describedby="inputGroup-sizing-default">
         </div>
 
+        <span asp-validation-for="Image" class="text-danger"></span>
         <div class="input-group mb-3 mt-4 mb-4">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-default">Image</span>
@@ -69,10 +71,10 @@
             <input asp-for="Image" class="form-control">
         </div>
 
-        <input type="hidden" value="@ViewBag.OwnerId" asp-for="OwnerId" />
+        <input type="hidden" value="@ViewBag.ArtistId" asp-for="ArtistId" />
 
         <div class="input-group">
-            <button asp-controller="Auctions" asp-action="AddPainting" type="submit" class="btn btn-primary btn-lg btn-block mb-3 mt-4 mb-4">Add a painting</button>
+            <button asp-controller="Artists" asp-action="AddPainting" type="submit" class="btn btn-primary btn-lg btn-block mb-3 mt-4 mb-4">Add a painting</button>
         </div>
     </form>
 

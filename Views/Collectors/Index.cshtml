@@ -15,10 +15,6 @@
                 <p class="text-center"> @user.Email</p>
                 <p class="text-center"> @user.City , @user.Country </p>
                 <p class="text-center"> Role: @user.Role  </p>
-                @if (user.Role != "Administrator")
-                {
-                    <p class="text-center"> Is gallery representative: @user.IsRepresentative </p>
-                }
                 @if (user.IsRepresentative)
                 {
                     <p class="text-center"> Place of work: @user.Gallery  </p>

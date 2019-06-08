@@ -1,0 +1,71 @@
+﻿@using ArtAuction.Models
+@model ArtAuction.Models.Painting
+@{
+    ViewData["Title"] = "EditPainting";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <h1 class="m-3">Add a new painting</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        <span asp-validation-for="Title" class="text-danger"></span>
+        <div class="input-group mb-3 mt-4 mb-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
+            </div>
+            <input asp-for="Title" class="form-control" aria-describedby="inputGroup-sizing-default">
+
+        </div>
+
+        <span asp-validation-for="Style" class="text-danger"></span>
+        <div class="input-group mb-3 mt-4 mb-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Style</span>
+            </div>
+            <input asp-for="Style" class="form-control" aria-describedby="inputGroup-sizing-default">
+
+        </div>
+
+        <span asp-validation-for="CreationDate" class="text-danger"></span>
+        <div class="input-group mb-3 mt-4 mb-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Creation date</span>
+            </div>
+            <input asp-for="CreationDate" class="form-control" aria-describedby="inputGroup-sizing-default">
+
+        </div>
+
+        <span asp-validation-for="CurrentlyLocated" class="text-danger"></span>
+        <div class="input-group mb-3 mt-4 mb-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Currently located</span>
+            </div>
+            <select asp-for="CurrentlyLocated" class="form-control" id="exampleFormControlSelect1">
+                <option>Not on sale</option>
+                @{
+                    var auctions = (List<Auction>) ViewData["Auctions"];
+                    foreach (var auction in auctions)
+                    {
+                        <option>@auction.Title</option>
+                    }
+                }
+                
+            </select>
+
+        </div>
+
+        <span asp-validation-for="Estimated" class="text-danger"></span>
+        <div class="input-group mb-3 mt-4 mb-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Estimated</span>
+            </div>
+            <input asp-for="Estimated" class="form-control" aria-describedby="inputGroup-sizing-default">
+        </div>
+
+        <div class="input-group">
+            <button asp-controller="Artists" asp-action="EditPainting" type="submit" class="btn btn-primary btn-lg btn-block mb-3 mt-4 mb-4">Edit a painting</button>
+        </div>
+    </form>
+
+</div>

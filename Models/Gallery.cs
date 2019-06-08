@@ -28,7 +28,6 @@ namespace ArtAuction.Models
         [StringLength(2000, MinimumLength = 20)]
         public string About { get; set; }
         public List<Painting> Paintings { get; set; }
-        public bool HasRepresentatives { get; set; } = false;
         public List<User> Representatives { get; set; }
 
         public bool HasCurrentUser(string email)

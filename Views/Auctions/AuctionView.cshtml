@@ -9,19 +9,17 @@
 <section class="jumbotron text-center auctionTab">
     <div class="container">
         <h1 class="jumbotron-heading">@Model.Title</h1>
-        <p class="text-center font-weight-bold lead"> @Model.EndDateTime.ToString("g")</p>
-        <p class="text-center font-weight-bolds">Place: @Model.Place</p>
+        <p class="text-center font-weight-bold lead"> Start: @Model.StartDateTime.ToString("g")</p>
+        <p class="text-center font-weight-bold lead">End: @Model.EndDateTime.ToString("g")</p>
+        
         <p class="text-center lead">Movement\styles: @Model.Description</p>
         <!--it was p tag-->
         <div>
             @if (User.IsInRole("Administrator"))
             {
-                if ((Model.EndDateTime - DateTime.Now).TotalSeconds >= 0)
-                {
-                    <a asp-controller="Auctions" asp-action="AddPainting" asp-route-id="@Model.Id" method="get" class="btn btn-info btn-lg pt-2 pb-2">Add a painting</a>
-                }
+                
                 <form asp-controller="Auctions" asp-action="DeleteAuction" asp-route-id="@Model.Id" method="post">
-                    <input type="submit" value="Delete" class="btn btn-danger btn-block btn-lg mb-3"/>
+                    <input type="submit" value="Delete" class="btn btn-danger btn-block btn-lg mb-3" />
                 </form>
             }
         </div>
@@ -34,18 +32,25 @@
         <div class="row">
         @foreach (var painting in Model.Paintings)
         {
-
             <div class="col-md-4">
                 <div class="card mb-4 box-shadow">
-                    <img class="card-img-top" src="~/content/paintings/@painting.ImgId" alt="Painting">
+                    <img class="card-img-top" src="~/content/paintings/@painting.ImgId" alt="Painting" height="400">
                     <div class="card-body">
                         <h4 class="card-text">@painting.Title</h4>
-                        <p class="card-text">Artist: @painting.Artist</p>
-                        <p class="card-text"> Style: @painting.Style</p>
+                        <p class="card-text"><span class="font-weight-bold">Artist:</span> <a asp-controller="Artists" asp-action="ArtistView" asp-route-id="@painting.ArtistId"> @painting.Artist </a></p>
+                        <p class="card-text"><span class="font-weight-bold"> Style:</span> @painting.Style</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <a asp-controller="Auctions" asp-action="PaintingView" asp-route-auctionId="@Model.Id" asp-route-paintingId="@painting.Id" class="btn btn-sm btn-outline-secondary">View</a>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                                @{
+                                    if (!painting.IsBought && (Model.StartDateTime - DateTime.Now).TotalSeconds <= 0 && (Model.EndDateTime - DateTime.Now).TotalSeconds >= 0)
+                                    {
+                                        <form asp-controller="Auctions" asp-action="BuyPainting" asp-route-paintingId="@painting.Id" asp-route-auctionId="@painting.AuctionId" method="post">
+                                            <input type="submit" value="Buy a painting" class="btn btn-info btn-lg"/>
+                                        </form>
+                                    }
+                                }
+                                
+                                <a asp-controller="Artists" asp-action="PaintingView" asp-route-artistId="@painting.ArtistId" asp-route-paintingId="@painting.Id" class="btn btn-lg btn-light">View</a>
                             </div>                
                         </div>
                     </div>
