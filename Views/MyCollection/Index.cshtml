@@ -4,8 +4,6 @@
     Layout = "_Layout";
 }
 
-
-
 <main role="main">
 
     <section class="jumbotron text-center mycollectionTab">
@@ -28,12 +26,9 @@
                         <div class="card mb-4 box-shadow">
                             <img class="card-img-top" src="~/content/paintings/@painting.ImgId" alt="Painting">
                             <div class="card-body">
-                                <h4 class="card-text">@painting.Title</h4>
-                                <p class="card-text">Artist: @painting.Artist</p>
-                                <p class="card-text">Style: @painting.Style</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                               
-                                </div>
+                                <h4 class="card-text"><a asp-action="PaintingView" asp-controller="Artists" asp-route-paintingId="@painting.Id">@painting.Title</a></h4>
+                                <p class="card-text"><span class="font-weight-bold">Artist:</span> <a asp-controller="Artists" asp-action="ArtistView" asp-route-id="@painting.ArtistId"> @painting.Artist </a></p>
+                                <p class="card-text"><span class="font-weight-bold"> Style:</span> @painting.Style</p>
                             </div>
                         </div>
                     </div>

@@ -21,16 +21,9 @@ namespace ArtAuction.Models
         public DateTime StartDateTime { get; set; }
         [Required]
         public DateTime EndDateTime { get; set; }
-       
         [Required]
         [StringLength(1000, MinimumLength = 5)]
         public string Description { get; set; }
         public List<Painting> Paintings { get; set; }
-        public void UpdatePainting(Painting painting)
-        {
-            Paintings.RemoveAll(p => p.Id == painting.Id);
-            Paintings.Add(painting);
-        }
-
     }
 }

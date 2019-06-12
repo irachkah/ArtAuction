@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Paintings\" />
     <Folder Include="wwwroot\content\paintings\" />
   </ItemGroup>
 

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace ArtAuction.Models.Collections
@@ -9,6 +9,7 @@ namespace ArtAuction.Models.Collections
     public class PaintingCollection : IPaintingCollection
     {
         private readonly IMongoCollection<Painting> _paintings;
+        private List<Painting> paintingsList;
 
         public PaintingCollection(string conStr)
         {
@@ -16,40 +17,59 @@ namespace ArtAuction.Models.Collections
             var database = client.GetDatabase("ArtDB");
             _paintings = database.GetCollection<Painting>("Paintings");
         }
-        public List<Painting> Objects { get; }
+
+        public List<Painting> Objects
+        {
+            get
+            {
+                return new List<Painting>(_paintings.Find(_ => true).ToList().OrderBy(p => p.Title));
+            }
+        }
+
         public void AddObject(Painting obj)
         {
-            throw new NotImplementedException();
+            _paintings.InsertOne(obj);
         }
 
         public void RemoveObject(string id)
         {
-            throw new NotImplementedException();
+            _paintings.DeleteOne(p => p.Id == id);
         }
 
         public void UpdateObject(Painting obj)
         {
-            throw new NotImplementedException();
+            var filter = new BsonDocument("_id", new ObjectId(obj.Id));
+            var res = _paintings.ReplaceOne(filter, obj);
         }
 
         public Painting FindObject(string id)
         {
-            throw new NotImplementedException();
+            var paintingFound = _paintings.Find(ar => ar.Id == id).ToList();
+            return paintingFound[0];
         }
 
         public List<Painting> GetArtistPaintings(string artistId)
         {
-            throw new NotImplementedException();
+            paintingsList = Objects.FindAll(p => p.ArtistId == artistId).OrderBy(p => p.Title).ToList();
+            return paintingsList;
         }
 
         public List<Painting> GetAuctionPaintings(string auctionId)
         {
-            throw new NotImplementedException();
+            paintingsList = Objects.FindAll(p => p.AuctionId == auctionId).OrderBy(p => p.Title).ToList();
+            return paintingsList;
         }
 
         public List<Painting> GetOwnerPaintings(string ownerId)
         {
-            throw new NotImplementedException();
+            paintingsList = Objects.FindAll(p => p.OwnerId == ownerId).OrderBy(p => p.Title).ToList();
+            return paintingsList;
+        }
+
+        public void RemoveArtistPaintings(string artistId)
+        {
+            var filter = new BsonDocument("ArtistId", artistId);
+            _paintings.DeleteMany(filter);
         }
     }
 }

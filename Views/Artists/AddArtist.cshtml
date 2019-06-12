@@ -1,20 +1,28 @@
 ﻿@using ArtAuction.Models
 @model ArtAuction.Models.Artist
 @{
-    ViewData["Title"] = "AddArtist";
+    ViewData["Title"] = "Add Artist";
     Layout = "_Layout";
 }
-
 <div class="container">
     <h1 class="m-3">Add a new artist</h1>
 
     <form method="post">
-        <span asp-validation-for="Name" class="text-danger"></span>
+        <span asp-validation-for="FirstName" class="text-danger"></span>
         <div class="input-group mb-3 mt-4 mb-4">
             <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-default">Full Name</span>
+                <span class="input-group-text" id="inputGroup-sizing-default">First Name</span>
             </div>
-            <input asp-for="Name" class="form-control" aria-describedby="inputGroup-sizing-default">
+            <input asp-for="FirstName" class="form-control" aria-describedby="inputGroup-sizing-default">
+
+        </div>
+
+        <span asp-validation-for="LastName" class="text-danger"></span>
+        <div class="input-group mb-3 mt-4 mb-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Last Name</span>
+            </div>
+            <input asp-for="LastName" class="form-control" aria-describedby="inputGroup-sizing-default">
 
         </div>
 
@@ -23,7 +31,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-default">Date of birth</span>
             </div>
-            <input asp-for="BirthDate" type="date" class="form-control" aria-describedby="inputGroup-sizing-default">
+            <input asp-for="BirthDate" type="datetime-local" class="form-control" aria-describedby="inputGroup-sizing-default">
 
         </div>
 
@@ -41,7 +49,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-default">Date of death</span>
             </div>
-            <input asp-for="DeathDate" type="date" class="form-control" aria-describedby="inputGroup-sizing-default">
+            <input asp-for="DeathDate" type="datetime-local" class="form-control" aria-describedby="inputGroup-sizing-default">
 
         </div>
 

@@ -8,7 +8,6 @@ namespace ArtAuction.Controllers
     {
         public IActionResult Index()
         {
-          
             return View();
         }
     }

@@ -5,15 +5,13 @@
 }
 
 <main role="main">
-
 <section class="jumbotron text-center auctionTab">
     <div class="container">
         <h1 class="jumbotron-heading">@Model.Title</h1>
         <p class="text-center font-weight-bold lead"> Start: @Model.StartDateTime.ToString("g")</p>
         <p class="text-center font-weight-bold lead">End: @Model.EndDateTime.ToString("g")</p>
         
-        <p class="text-center lead">Movement\styles: @Model.Description</p>
-        <!--it was p tag-->
+        <p class="text-center lead"> @Model.Description</p>
         <div>
             @if (User.IsInRole("Administrator"))
             {
@@ -34,7 +32,7 @@
         {
             <div class="col-md-4">
                 <div class="card mb-4 box-shadow">
-                    <img class="card-img-top" src="~/content/paintings/@painting.ImgId" alt="Painting" height="400">
+                    <img class="card-img-top" src="~/content/paintings/@painting.ImgId" alt="Painting">
                     <div class="card-body">
                         <h4 class="card-text">@painting.Title</h4>
                         <p class="card-text"><span class="font-weight-bold">Artist:</span> <a asp-controller="Artists" asp-action="ArtistView" asp-route-id="@painting.ArtistId"> @painting.Artist </a></p>
@@ -44,13 +42,13 @@
                                 @{
                                     if (!painting.IsBought && (Model.StartDateTime - DateTime.Now).TotalSeconds <= 0 && (Model.EndDateTime - DateTime.Now).TotalSeconds >= 0)
                                     {
-                                        <form asp-controller="Auctions" asp-action="BuyPainting" asp-route-paintingId="@painting.Id" asp-route-auctionId="@painting.AuctionId" method="post">
+                                        <form asp-controller="Auctions" asp-action="BuyPainting" asp-route-paintingId="@painting.Id" method="post">
                                             <input type="submit" value="Buy a painting" class="btn btn-info btn-lg"/>
                                         </form>
                                     }
                                 }
                                 
-                                <a asp-controller="Artists" asp-action="PaintingView" asp-route-artistId="@painting.ArtistId" asp-route-paintingId="@painting.Id" class="btn btn-lg btn-light">View</a>
+                                <a asp-controller="Artists" asp-action="PaintingView" asp-route-paintingId="@painting.Id" class="btn btn-lg btn-light">View</a>
                             </div>                
                         </div>
                     </div>

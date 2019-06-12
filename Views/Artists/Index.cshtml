@@ -4,7 +4,6 @@
     Layout = "_Layout";
 }
 <main role="main">
-
     <section class="jumbotron text-center artistsTab">
         <div class="container">
             <h1 class="jumbotron-heading">WE COOPERATE WITH MANY FANTASTIC ARTISTS!</h1>
@@ -24,14 +23,7 @@
             @foreach (var artist in Model)
             {
             <div class="col-md-4">
-                <h3 class="text-center font-weight-bold"><a asp-controller="Artists" asp-action="ArtistView" asp-route-id="@artist.Id">@artist.Name</a></h3>
-                <p class="text-center font-weight-normal"><span class="font-weight-bold">Date of birth:</span> @artist.BirthDate.Date.ToString("d")</p>
-                <p class="text-center font-weight-normal"><span class="font-weight-bold">Place of birth:</span> @artist.BirthPlace</p>
-                @if (artist.DeathDate != null && artist.DeathPlace != null)
-                {
-                    <p class="text-center font-weight-normal"><span class="font-weight-bold">Date of death:</span> @artist.DeathDate.Date.ToString("d")</p>
-                    <p class="text-center font-weight-normal"><span class="font-weight-bold">Place of death:</span> @artist.DeathPlace</p>
-                }
+                <h3 class="text-center font-weight-bold"><a asp-controller="Artists" asp-action="ArtistView" asp-route-id="@artist.Id">@artist.FirstName @artist.LastName</a></h3>
                 <p class="text-center font-weight-normal"><span class="font-weight-bold">Styles\movements:</span> @artist.Styles</p>
             </div>
 

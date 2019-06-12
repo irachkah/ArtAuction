@@ -1,12 +1,12 @@
 ﻿@using ArtAuction.Models
 @model ArtAuction.Models.Painting
 @{
-    ViewData["Title"] = "EditPainting";
+    ViewData["Title"] = "Edit Painting";
     Layout = "_Layout";
 }
 
 <div class="container">
-    <h1 class="m-3">Add a new painting</h1>
+    <h1 class="m-3">Edit a painting</h1>
 
     <form method="post" enctype="multipart/form-data">
         <span asp-validation-for="Title" class="text-danger"></span>
@@ -44,13 +44,13 @@
             <select asp-for="CurrentlyLocated" class="form-control" id="exampleFormControlSelect1">
                 <option>Not on sale</option>
                 @{
-                    var auctions = (List<Auction>) ViewData["Auctions"];
+                    var auctions = (List<Auction>)ViewData["Auctions"];
                     foreach (var auction in auctions)
                     {
                         <option>@auction.Title</option>
                     }
                 }
-                
+
             </select>
 
         </div>
@@ -62,6 +62,15 @@
             </div>
             <input asp-for="Estimated" class="form-control" aria-describedby="inputGroup-sizing-default">
         </div>
+
+        <input type="hidden" value="@Model.Id" asp-for="Id" />
+        <input type="hidden" value="@Model.Artist" asp-for="Artist" />
+        <input type="hidden" value="@Model.ArtistId" asp-for="ArtistId" />
+    
+        <input type="hidden" value="@Model.IsBought" asp-for="IsBought" />
+        <input type="hidden" value="@Model.OwnerId" asp-for="OwnerId" />
+        <input type="hidden" value="@Model.OwnerName" asp-for="OwnerName" />
+        <input type="hidden" value="@Model.ImgId" asp-for="ImgId" />
 
         <div class="input-group">
             <button asp-controller="Artists" asp-action="EditPainting" type="submit" class="btn btn-primary btn-lg btn-block mb-3 mt-4 mb-4">Edit a painting</button>

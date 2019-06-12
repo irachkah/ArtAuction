@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using ArtAuction.ViewModels;
-using Microsoft.AspNetCore.Http;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+
+using ArtAuction.ViewModels;
 
 namespace ArtAuction.Models
 {
     [BsonIgnoreExtraElements]
     public class Painting
     {
-       //[BsonId]
-        //[BsonRepresentation(BsonType.ObjectId)]
+       [BsonId]
+       [BsonRepresentation(BsonType.ObjectId)]
         // Painting Info
         public string Id { get; set; }
         public string Title { get; set; }
@@ -33,6 +28,10 @@ namespace ArtAuction.Models
         //Image
         public string ImgId { get; set; }
 
+        public Painting()
+        {
+                
+        }
         public Painting(PaintingViewModel vm)
         {
             Title = vm.Title;

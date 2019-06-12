@@ -1,20 +1,19 @@
 ﻿@model ArtAuction.Models.Artist
 @{
-    ViewData["Title"] = "DeleteCollector";
+    ViewData["Title"] = "Artist view";
     Layout = "_Layout";
 }
 <section class="jumbotron text-center auctionTab">
     <div class="container">
-        <h2 class="mt-3 text-center"> @Model.Name</h2>
+        <h2 class="mt-3 text-center"> @Model.FirstName @Model.LastName</h2>
         <p class="text-center font-weight-normal"><span class="font-weight-bold">Date of birth:</span> @Model.BirthDate.Date.ToString("d")</p>
         <p class="text-center font-weight-normal"><span class="font-weight-bold">Place of birth:</span> @Model.BirthPlace</p>
-        @if(Model.DeathDate!= null && Model.DeathPlace!= null) { 
+        @if(Model.DeathPlace!= null) { 
             <p class="text-center font-weight-normal"><span class="font-weight-bold">Date of death:</span> @Model.DeathDate.Date.ToString("d")</p>
             <p class="text-center font-weight-normal"><span class="font-weight-bold">Place of death:</span> @Model.DeathPlace</p>
         }
         <p class="text-center font-weight-normal"><span class="font-weight-bold">Styles\movements:</span> @Model.Styles</p>
 
-        <!--it was p tag-->
         <div>
             @if (User.IsInRole("Administrator"))
             {
@@ -26,8 +25,8 @@
                     </form>
                 </div>
                     }
-                </div>
-            </div>
+        </div>
+    </div>
 </section>
 <div class="container">
     
@@ -43,18 +42,18 @@
 
                     <div class="col-md-4">
                         <div class="card mb-4 box-shadow">
-                            <img class="card-img-top" src="~/content/paintings/@painting.ImgId" height="300" alt="Painting">
+                            <img class="card-img-top" src="~/content/paintings/@painting.ImgId"  alt="Painting">
                             <div class="card-body">
                                 <h4 class="card-text">@painting.Title</h4>
-                                <p class="card-text">Artist: @painting.Artist</p>
+                                <p class="card-text">Creation date: @painting.CreationDate</p>
                                 <p class="card-text"> Style: @painting.Style</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <a asp-controller="Artists" asp-action="PaintingView" asp-route-artistId="@Model.Id" asp-route-paintingId="@painting.Id" class="btn btn-sm btn-block btn-outline-secondary">View</a>
+                                        <a asp-controller="Artists" asp-action="PaintingView" asp-route-paintingId="@painting.Id" class="btn btn-block btn-outline-secondary">View</a>
                                         @{
-                                            if (User.IsInRole("Administrator") && painting.CurrentlyLocated == "Not on sale")
+                                            if (User.IsInRole("Administrator"))
                                             {
-                                                <a asp-controller="Artists" asp-action="EditPainting" asp-route-artistId="@Model.Id" asp-route-paintingId="@painting.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                                <a asp-controller="Artists" asp-action="EditPainting" asp-route-artistId="@Model.Id" asp-route-paintingId="@painting.Id" class="btn btn-outline-secondary">Edit</a>
                                             }
                                         }
 

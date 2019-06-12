@@ -1,6 +1,6 @@
 ﻿@model ArtAuction.Models.User
 @{
-    ViewData["Title"] = "DeleteCollector";
+    ViewData["Title"] = "Delete Collector";
     Layout = "_Layout";
 }
 
@@ -17,9 +17,33 @@
     @if (User.IsInRole("Administrator"))
     {
         <form asp-controller="Collectors" asp-action="DeleteCollector" asp-route-id="@Model.Id" method="post">
-            <input type="submit" value="Delete" class="btn btn-danger btn-block btn-lg mb-3"/>
+            <input type="submit" value="Delete" class="btn btn-danger btn-block btn-lg mb-3" />
         </form>
     }
-    
 </div>
+    @if (!Model.IsRepresentative)
+    {
+        <div class="album py-5 bg-light">
+            <div class="container">
+
+                <div class="row">
+                    @foreach (var painting in Model.Paintings)
+                    {
+                        <div class="col-md-4">
+                            <div class="card mb-4 box-shadow">
+                                <img class="card-img-top" src="~/content/paintings/@painting.ImgId" alt="Painting">
+                                <div class="card-body">
+                                    <h4 class="card-text">@painting.Title</h4>
+                                    <p class="card-text"><span class="font-weight-bold">Artist:</span> <a asp-controller="Artists" asp-action="ArtistView" asp-route-id="@painting.ArtistId"> @painting.Artist </a></p>
+                                    <p class="card-text"><span class="font-weight-bold"> Style:</span> @painting.Style</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+
 

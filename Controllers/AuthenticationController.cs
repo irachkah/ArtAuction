@@ -2,13 +2,12 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 using ArtAuction.Models;
 using ArtAuction.Models.Collections;
 using ArtAuction.ViewModels;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-
 
 namespace ArtAuction.Controllers
 {
@@ -22,11 +21,13 @@ namespace ArtAuction.Controllers
             _users = users;
             _galleries = galleries;
         }
+
         [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
@@ -45,14 +46,16 @@ namespace ArtAuction.Controllers
 
             return View(model);
         }
+
         [HttpGet]
         public IActionResult Register()
         {
             ViewData["Galleries"] = _galleries.Objects;
             return View();
         }
+
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -67,12 +70,6 @@ namespace ArtAuction.Controllers
                         Gallery gallery = _galleries.Objects.Find(gal => gal.Title == newUser.Gallery);
                         newUser.GalleryId = gallery.Id;
                         _users.AddUser(newUser);
-                        if (gallery.Representatives == null)
-                        {
-                            gallery.Representatives = new List<User>();
-                        }
-                        gallery.Representatives.Add(newUser);
-                        _galleries.UpdateObject(gallery);
                     }
                     
                     await Authenticate(newUser);
@@ -81,6 +78,8 @@ namespace ArtAuction.Controllers
                 }
                 ModelState.AddModelError("", "Account with this e-mail already exists!");
             }
+
+            ViewData["Galleries"] = _galleries.Objects;
 
             return View(model);
         }
@@ -96,7 +95,6 @@ namespace ArtAuction.Controllers
             {
                 new Claim(ClaimTypes.Name, user.Email),
                 new Claim("FullName", $"{user.FirstName} {user.LastName}"),
-                //new Claim(ClaimTypes.Role, user.Role == "Admin" ? "Administrator" : "User"),
                 new Claim(ClaimTypes.Role, user.Role),
             };
 

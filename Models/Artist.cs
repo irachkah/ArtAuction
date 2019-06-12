@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -14,8 +12,9 @@ namespace ArtAuction.Models
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
+        public string FirstName { get; set; }
         [Required]
-        public string Name { get; set; }
+        public string LastName { get; set; }
         [Required]
         public DateTime BirthDate { get; set; }
         [Required]
@@ -26,11 +25,5 @@ namespace ArtAuction.Models
         [Required]
         public string Styles { get; set; }
         public List<Painting> Paintings { get; set; }
-
-        public void UpdatePainting(Painting painting)
-        {
-            Paintings.RemoveAll(p => p.Id == painting.Id);
-            Paintings.Add(painting);
-        }
     }
 }

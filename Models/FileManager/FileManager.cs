@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -10,12 +8,13 @@ namespace ArtAuction.Models.FileManager
 {
     public class FileManager : IFileManager
     {
-        private string _imagePath;
+        private readonly string _imagePath;
 
         public FileManager(IConfiguration config)
         {
             _imagePath = config["Path:PaintingImages"];
         }
+
         public async Task<string> SaveImage(IFormFile image)
         {
             var save_path = Path.Combine(_imagePath);
@@ -25,7 +24,7 @@ namespace ArtAuction.Models.FileManager
             }
              
             var mime = image.FileName.Substring(image.FileName.LastIndexOf('.'));
-            var fileName = $"painting_{DateTime.Now.ToString("dd-MM-yyyy-HH-mm-ss")}{mime}";
+            var fileName = $"painting_{DateTime.Now:dd-MM-yyyy-HH-mm-ss}{mime}";
 
             using (var fileStream = new FileStream(Path.Combine(save_path, fileName), FileMode.Create))
             {

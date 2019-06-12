@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -11,19 +10,19 @@ namespace ArtAuction.Models.Collections
     {
         private readonly IMongoCollection<Artist> _artists;
 
+        public List<Artist> Objects
+        {
+            get
+            {
+                return new List<Artist>(_artists.Find(_ => true).ToList().OrderBy(ar => ar.LastName.Trim()));
+            }
+        }
+
         public ArtistCollection(string conStr)
         {
             var client = new MongoClient(conStr);
             var database = client.GetDatabase("ArtDB");
             _artists = database.GetCollection<Artist>("Artists");
-        }
-
-        public List<Artist> Objects
-        {
-            get
-            {
-                return new List<Artist>(_artists.Find(_ => true).ToList().OrderBy(ar => ar.Name));
-            }
         }
 
         public void AddObject(Artist obj)
@@ -47,6 +46,5 @@ namespace ArtAuction.Models.Collections
             var artistFound = _artists.Find(ar => ar.Id == id).ToList();
             return artistFound[0];
         }
-
     }
 }

@@ -11,19 +11,19 @@ namespace ArtAuction.Models.Collections
     {
         private readonly IMongoCollection<Gallery> _galleries;
 
+        public List<Gallery> Objects
+        {
+            get
+            {
+                return new List<Gallery>(_galleries.Find(_ => true).ToList().OrderBy(g => g.Title));
+            }
+        }
+
         public GalleryCollection(string conStr)
         {
             var client = new MongoClient(conStr);
             var database = client.GetDatabase("ArtDB");
             _galleries = database.GetCollection<Gallery>("Galleries");
-        }
-
-        public List<Gallery> Objects
-        {
-            get
-            {
-                return _galleries.Find(_ => true).ToList();
-            }
         }
 
         public void AddObject(Gallery obj)

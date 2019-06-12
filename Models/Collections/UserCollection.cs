@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -25,6 +23,7 @@ namespace ArtAuction.Models.Collections
             var database = client.GetDatabase("UsersDB");
             _users = database.GetCollection<User>("Users");
         }
+
         public User AddUser(User user)
         {
             _users.InsertOne(user);

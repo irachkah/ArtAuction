@@ -1,14 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using ArtAuction.Models;
-using ArtAuction.Models.Collections;
-using ArtAuction.Models.FileManager;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
+using ArtAuction.Models;
+using ArtAuction.Models.Collections;
+using ArtAuction.Models.FileManager;
 
 namespace ArtAuction
 {
@@ -27,6 +25,7 @@ namespace ArtAuction
             services.AddScoped<IAuctionCollection>(_ => new AuctionCollection(Configuration["mongoStr"]));
             services.AddScoped<IEditableCollection<Artist>>(_ => new ArtistCollection(Configuration["mongoStr"]));
             services.AddScoped<IEditableCollection<Gallery>>(_ => new GalleryCollection(Configuration["mongoStr"]));
+            services.AddScoped<IPaintingCollection>(_ => new PaintingCollection(Configuration["mongoStr"]));
 
             services.AddScoped<IFileManager, FileManager>();
 

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ArtAuction.Models.Collections
 {
@@ -10,5 +7,6 @@ namespace ArtAuction.Models.Collections
         List<Painting> GetArtistPaintings(string artistId);
         List<Painting> GetAuctionPaintings(string auctionId);
         List<Painting> GetOwnerPaintings(string ownerId);
+        void RemoveArtistPaintings(string artistId);
     }
 }
