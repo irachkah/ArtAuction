@@ -1,4 +1,5 @@
-Grace Art Auction (GAA) is an online art community made for people connected with paintings as my coursework on Object-Oriented Programming
+# Grace Art Auction (GAA) 
+is an online art community made for people connected with paintings as my coursework on Object-Oriented Programming
 It features information on artists, who collaborate with the auction, all of their paintings, information about famous art museums, auctions
 and a personal collection of bought paintings.
 
